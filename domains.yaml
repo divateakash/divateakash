@@ -1,0 +1,25 @@
+models:
+  DomainProvider:
+    name: string
+    user: string
+    password: string
+    provider: string
+    team_id: id:team
+
+  DomainGroup:
+    name: string
+    domain_provider_id: id:domain_provider
+    team_id: id:team
+
+  Domain:
+    domain: string
+    status: string
+    points_to: string nullable
+    dns_last_updated_at: timestamp nullable
+    expires_at: timestamp nullable
+    domain_group_id: id:domain_group
+    domain_provider_id: id:domain_provider
+    error: string nullable
+    errored_at: timestamp nullable
+    team_id: id:team
+

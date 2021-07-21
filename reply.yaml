@@ -1,0 +1,9 @@
+models:
+  Reply:
+    content: string
+    from: string
+    to: string
+    outbound_id: id:outbound
+    reply_outbound_id: id:outbound nullable
+    campaign_id: id:campaign
+    team_id: id:team

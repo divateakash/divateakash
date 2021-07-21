@@ -1,0 +1,178 @@
+models:
+  Team:
+    name: string
+    admin_id: id:user
+
+  Campaign:
+    name: string
+    status: string
+    link_type: string
+    carriers: json nullable
+    team_id: id:team
+    account_id: id:account
+    message_group_id: id:message_group
+    offer_id: id:offer
+    catalog_id: id:catalog
+
+  Provider:
+    name: string
+    provider: string
+    username: string
+    password: string
+    cost: decimal nullable
+    team_id: id:team
+
+  Account:
+    name: string
+    type: string
+    sending_price:  double nullable
+    send_rate: integer nullable
+    provider_id: id:provider
+    team_id: id:team
+
+  Number:
+    number: string
+    status: string
+    provider_id: id:provider
+    account_id: id:account
+
+  MessageGroup:
+    name: string
+    team_id: id:team
+
+  Message:
+    content: string
+    message_group_id: id:message_group
+
+  Offer:
+    name: string
+    redirect_url: string
+    team_id: id:team
+
+  Catalog:
+    name: string
+    team_id: id:team
+
+  Lead:
+    first_name: string
+    last_name: string
+    email: string
+    phone: string
+    timezone: string nullable
+    region: string nullable
+    carrier: string
+    type: string nullable
+    suppressed_at: timestamp nullable
+    catalog_id: id:catalog
+    team_id: id:team
+
+  FileUpload:
+    name: string
+    mapping: json
+    duplicates: integer nullable
+    rejected: integer nullable
+    catalog_id: id:catalog
+    team_id: id:team
+
+  Click:
+    bot: boolean nullable
+    offer_id: id:offer
+    campaign_id: id:campaign
+    outbound_id: id:outbound
+    team_id: id:team
+
+  Carrier:
+    name: string
+
+  Outbound:
+    from: string
+    to: string
+    cost: decimal
+    hash: string nullable
+    link: string nullable
+    processed: boolean
+    success: boolean
+    error: string nullable
+    send_at: timestamp nullable
+    sent_at: timestamp nullable
+    response: string nullable
+    message: string nullable
+    campaign_id: id:campaign
+    offer_id: id:offer
+    lead_id: id:lead
+    account_id: id:account
+    message_group_id: id:message_group
+    message_id: id:message
+    team_id: id:team
+
+  Credit:
+    amount: integer
+    team_id: id:team
+
+controllers:
+  CampaignsController:
+    index:
+      query: all
+      render: campaigns.index with:campaigns
+    show:
+      render: campaigns.index with:campaign
+    store:
+      validate: name, link_type, carriers, account_id, message_group_id, offer_id, catalog_id
+      save: campaign
+      dispatch: GenerateMessages with:campaign
+      flash: campaign.name
+      redirect: campaigns.index
+
+  ProvidersController:
+    index:
+      query: all
+      render: providers.index with:providers
+    store:
+      validate: name, provider, username, password, cost
+      save: provider
+      flash: provider.name
+      redirect: providers.index
+
+  AccountsController:
+    index:
+      query: all
+      render: accounts.index with:accounts
+    show:
+      render: accounts.show with:account
+    store:
+      validate: name, type, sending_price, send_rate, provider_id
+      save: account
+      redirect: accounts.index
+
+  MessageGroupsController:
+    index:
+      query: all
+      render: message_groups.index with:groups
+    show:
+      render: message_groups.show with:group
+    store:
+      validate: name
+      save: messageGroup
+      redirect: message_groups.show with:messageGroup
+
+  OffersController:
+    index:
+      query: all
+      render: offers.index with:offers
+    show:
+      render: offers.show with:offer
+    store:
+      validate: name, redirect_url
+      save: offer
+      redirect: offers.show with:offer
+
+  ListsController:
+    index:
+      query: all
+      render: lists.index with:lists
+    show:
+      render: lists.show with:list
+    store:
+      validate: name
+      save: list
+      redirect: lists.show with:list

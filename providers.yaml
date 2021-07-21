@@ -1,0 +1,23 @@
+controllers:
+  ProvidersController:
+    index:
+      query: all
+      render: providers.index with:providers
+    show:
+      render: providers.show with:provider
+    create:
+      render: providers.create
+    store:
+      validate: name, provider, username, password, cost
+      save: provider
+      flash: provider.name
+      redirect: providers.index
+    edit:
+      render: providers.edit with:provider
+    update:
+      validate: name, username, password, cost
+      save: provider
+      flash: provider.name
+      redirect: providers.index
+    destroy:
+      redirect: providers.index
