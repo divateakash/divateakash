@@ -56,5 +56,5 @@
           with:
             app-name: 'testmicro1'
             slot-name: 'production'
-            publish-profile: ${{ secrets.AzureAppService_PublishProfile_bdf8dc2a23b04e908172a6eae887bf5c }}
+            publish-profile: ${{ secrets.AzureAppService_PublishProfile_fc1f17a9a0f74682bbc76fc51d84529a }}
             package: .
